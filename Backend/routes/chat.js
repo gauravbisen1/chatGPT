@@ -1,5 +1,6 @@
 import express from "express";
 import Thread from "../models/thread.js"
+import getOpenAIAPIResponse from "../utils/openai.js"
 
 const router = express.Router();
 
@@ -60,6 +61,44 @@ router.delete("/thread/:threadId", async (req,res)=>{
         console.log(err);
         res.status(500).json({error: "Failed to delete chat"});
     }
-})
+});
+
+//chat route
+router.post("/chat", async(req,res)=>{
+    const {threadId,message}= req.body;
+    //validate through id and message
+    if(!threadId || !message){
+        res.status(400).json({error: "missing required fields"});
+    }
+
+    try {
+        const thread = await Thread.findOne({threadId});
+        //if thread already not exist, create new thread and store msg on it
+        if (!thread) {
+            //create a new thread in db
+            thread = new Thread({
+                threadId,
+                title: message ,
+                messages: [{role: "user", content: message}]
+            });
+        } 
+        //if thread already exist store msg on it
+        else {
+            thread.messages.push({role: "user", content: message});
+        }
+        //assistant reply
+        const assistantReply = await getOpenAIAPIResponse(message);
+
+        thread.messages.push({role: "assistant", content: assistantReply});
+        thread.updatedAt = new Date();
+        //save reply on mongodb
+        await thread.save();
+
+        res.json({reply: assistantReply});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: "something went wrong"});
+    }
+});
 
 export default router;
