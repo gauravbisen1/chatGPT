@@ -6,17 +6,17 @@ const SideBar = () => {
     <section className='sidebar'>
       {/* new chat button  */}
       <button>
-        <img src="src/assets/blacklogo.png" alt="chatgpt logo" />
-        <i className="fa-solid fa-pen-to-square"></i>
+        <img src="src/assets/blacklogo.png" className='logo' alt="chatgpt logo" />
+        <span><i className="fa-solid fa-pen-to-square"></i></span>
       </button>
 
       {/* history */}
         <ul className='history'>
-            <li>History1</li>
-            <li>History2</li>
-            <li>History3</li>
+            <li>Thread1</li>
+            <li>Thread2</li>
+            <li>Thread3</li>
         </ul>
-        
+
       {/* sign  */}
       <div className="sign">
         <p>By GauravBisen &hearts;</p>
