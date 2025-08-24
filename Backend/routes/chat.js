@@ -72,7 +72,7 @@ router.post("/chat", async(req,res)=>{
     }
 
     try {
-        const thread = await Thread.findOne({threadId});
+        let thread = await Thread.findOne({threadId});
         //if thread already not exist, create new thread and store msg on it
         if (!thread) {
             //create a new thread in db
