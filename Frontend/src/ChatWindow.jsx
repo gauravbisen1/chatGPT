@@ -2,11 +2,16 @@ import React, { useContext } from 'react'
 import "./ChatWindow.css"
 import Chat from "./Chat.jsx"
 import { MyContext } from './MyContext.jsx'
+import {  useState } from 'react'
+import {PacmanLoader} from "react-spinners"
 
 const ChatWindow = () => {
   const{ prompt , setPrompt , reply , setReply , currThreadId } = useContext(MyContext);
+  //loader
+  const [loading , setLoding] = useState(false);
 
   const getReply = async () => {
+      setLoding(true);
       console.log("message", prompt, "threadId",currThreadId);
       const options = {
         method: "POST",
@@ -27,7 +32,7 @@ const ChatWindow = () => {
       } catch (err) {
         console.log(err);
       }
-      
+      setLoding(false);
   }
 
   return (
@@ -39,6 +44,9 @@ const ChatWindow = () => {
           </div>
       </div>
       <Chat></Chat>
+
+      <PacmanLoader color='#fff' loading={loading}></PacmanLoader>
+
       <div className="chatInput">
           <div className="inputBox">
             <input placeholder='Ask anything' 
@@ -48,6 +56,7 @@ const ChatWindow = () => {
             >
               
             </input>
+            
             <div id='submit' onClick={getReply}>
                 <i className="fa-solid fa-paper-plane"></i>
             </div>
