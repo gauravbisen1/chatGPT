@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext , useState , useEffect} from 'react'
 import "./ChatWindow.css"
 import Chat from "./Chat.jsx"
 import { MyContext } from './MyContext.jsx'
-import {  useState } from 'react'
 import {PacmanLoader} from "react-spinners"
 
 const ChatWindow = () => {
-  const{ prompt , setPrompt , reply , setReply , currThreadId } = useContext(MyContext);
+  const{ prompt , setPrompt , reply , setReply , currThreadId , prevChats , setPrevChats} = useContext(MyContext);
   //loader
   const [loading , setLoding] = useState(false);
 
@@ -34,6 +33,22 @@ const ChatWindow = () => {
       }
       setLoding(false);
   }
+
+  //Append new chat to prev chat
+  useEffect(() => {
+    if (prompt && reply) {
+      setPrevChats(prevChats=>(
+        [...prevChats , {
+          role: "user",
+          content: prompt
+        },{
+          role: "assistant",
+          content: reply
+        }]
+      ))
+    }
+    setPrompt("")
+  }, [reply])
 
   return (
     <div className='chatWindow'>

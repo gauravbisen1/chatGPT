@@ -9,11 +9,15 @@ function App() {
   const [prompt , setPrompt] = useState("");//prompt is msg from user
   const [reply , setReply] = useState(null);//reply from ai
   const [currThreadId, setCurrThreadId] = useState(uuidv1());
+  const[prevChats , setPrevChats] = useState([]);//stores  all chats of curr threads
+  const[newChat, setNewChat] = useState(true);//to check if new chat is started
 
   const providerValues = {
     prompt , setPrompt,
     reply , setReply,
-    currThreadId, setCurrThreadId
+    currThreadId, setCurrThreadId,
+    newChat, setNewChat,
+    prevChats, setPrevChats
   };//passing values
 
   return (

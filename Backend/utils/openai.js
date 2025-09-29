@@ -10,12 +10,7 @@ const getOpenAIAPIResponse = async(message)=>{
         body: JSON.stringify({
             model: "gpt-4o-mini",
             messages: [
-                {
-                    role: "system",
-                    content: `You are a health chatbot. 
-                    - Only answer health-related questions (about symptoms, fitness, diet, mental health, medicine, etc.).
-                    - If the user asks anything not related to health, strictly reply with: "I am health chat bot ok".`
-                },
+                
                 {
                 role: "user",
                 content: message
